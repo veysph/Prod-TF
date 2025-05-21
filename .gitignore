@@ -1,10 +1,7 @@
 */.terraform*
 */.terraform/
 */terraform*
-f5xc-ce-aws/f5xc-ce-cloudconfig.yaml
 */*/terraform*
 */*/.terraform/
 */*/.terraform*
-*/*/f5xc-ce-cloudconfig.yaml
-/toto/
-/test-console/
+*/.DS_Store

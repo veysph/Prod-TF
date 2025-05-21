@@ -15,7 +15,7 @@ variable "f5xc-ce-site-name" {
 
 variable "aws-ssh-key" {
     description = "AWS ssh key for the AMI"
-    default = "pveys-eu-west-3"
+    default = "<name of the ssh key in AWS>"
 }
 
 variable "aws-region" {
@@ -25,26 +25,26 @@ variable "aws-region" {
 
 variable "slo-private-ip" {
     description = "Private IP for SLO"
-    default = "10.154.1.25"
+    default = "<your private IP for SLO"
 }
 
 variable "sli-private-ip" {
     description = "Private IP for SLI"
-    default = "10.154.33.250"
+    default = "<your private IP for SLI>"
 }
 
 variable "f5xc_api_url" {
   type    = string
-  default = "https://volt-field.console.ves.volterra.io/api"
+  default = "https://<tenant name>.console.ves.volterra.io/api"
 }
 
 variable "f5xc_api_p12_file" {
   type        = string
   description = "Volterra tenant api key"
-  default     = "/Users/p.veys/volt-field.console.ves.volterra.io.api-creds.p12"
+  default     = "<location of the api key>"
 }
 
 variable "f5xc_sms_description" {
   type    = string
-  default = "F5XC AWS site smsv2 site created with Terraform"
+  default = "F5XC SMSv2 AWS site created with Terraform"
 }
