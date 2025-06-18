@@ -30,90 +30,48 @@ data "aws_subnet" "inside" {
 }
 
 #
-#F5XC ressource (Site / Token / Cloud-init)
-#
-resource "volterra_securemesh_site_v2" "site" {
-  name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-  namespace               = "system"
-  description             = var.f5xc_sms_description
-  block_all_services      = true
-  logs_streaming_disabled = true
-  enable_ha               = false
-  labels = {
-    "ves.io/provider" = "ves-io-AWS"
-  }
-
-  re_select {
-    geo_proximity = true
-  }
-
-  aws {
-    not_managed {}
-  }
-}
-
-resource "volterra_token" "smsv2-token" {
-  depends_on = [volterra_securemesh_site_v2.site]
-  name       = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "token")
-  namespace  = "system"
-  type       = 1
-  site_name  = volterra_securemesh_site_v2.site.name
-}
-
-data "cloudinit_config" "f5xc-ce_config" {
-  gzip          = false
-  base64_encode = false
-
-  part {
-    content_type = "text/cloud-config"
-    content = yamlencode({
-      #cloud-config
-      write_files = [
-        {
-          path        = "/etc/vpm/user_data"
-          permissions = "0644"
-          owner       = "root"
-          content     = <<-EOT
-            token: ${trimprefix(trimprefix(volterra_token.smsv2-token.id, "id="), "\"")}
-          EOT
-        }
-      ]
-    })
-  }
-}
-
-#
 #AWS security group for the instance
 #
 resource "aws_security_group" "EC2-CE-sg-SLO" {
   name        = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLO")
-  description = "Allow traffic flows on SLO"
+  description = "Allow traffic flows on SLO, ingress and egress"
   vpc_id      = data.aws_vpc.main.id
 
-  ingress {
-    description = "SSH from trusted"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["82.65.174.68/32"]
-  }
 
-  ingress {
-    description = "ICMP from trusted"
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["82.65.174.68/32"]
-  }
+  #
+  #Please uncomment / adapt the two rules bellow to allow ICMP and/or SSH access to the public IP of SLO interface
+  #
+  # ingress {
+  #   description = "SSH from trusted"
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["XX.XX.XX.XX/32"]
+  # }
 
-  ingress {
-    description = "IPSEC from any"
-    from_port   = 4500
-    to_port     = 4500
-    protocol    = "udp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # ingress {
+  #   description = "ICMP from trusted"
+  #   from_port   = -1
+  #   to_port     = -1
+  #   protocol    = "icmp"
+  #   cidr_blocks = ["XX.XX.XX.XX/32"]
+  # }
 
+  #
+  #Please uncomment / adapt the rule bellow if you plan to use the site mesh group feature over a public IP
+  #
+  # ingress {
+  #   description = "IPSEC from any"
+  #   from_port   = 4500
+  #   to_port     = 4500
+  #   protocol    = "udp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+
+  #
+  #Please adapt the following rule if needed. CE need outgoing access to TCP 53(DNS), 443(HTTPS) and UDP 53(DNS), 123(NTP)
+  #
   egress {
     from_port   = 0
     to_port     = 0
@@ -129,7 +87,7 @@ resource "aws_security_group" "EC2-CE-sg-SLO" {
 
 resource "aws_security_group" "EC2-CE-sg-SLI" {
   name        = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLI")
-  description = "Allow traffic flows on SLI"
+  description = "Allow traffic flows on SLI, ingress and egress"
   vpc_id      = data.aws_vpc.main.id
 
   ingress {
@@ -155,7 +113,7 @@ resource "aws_security_group" "EC2-CE-sg-SLI" {
 #
 # CE interfaces creation. Comment / uncomment private_ips if you want or not use static IPs on the CEs
 #
-# Create a public network interface
+# Create a public network interface (SLO) for the F5XC CE
 resource "aws_network_interface" "public" {
     subnet_id = data.aws_subnet.outside.id
     security_groups = [aws_security_group.EC2-CE-sg-SLO.id]
@@ -167,7 +125,7 @@ resource "aws_network_interface" "public" {
     }
 }
 
-# Create a private network interface
+# Create a private network interface (SLI) for the F5XC CE
 resource "aws_network_interface" "private" {
     subnet_id = data.aws_subnet.inside.id
     security_groups = [aws_security_group.EC2-CE-sg-SLI.id]
@@ -180,7 +138,7 @@ resource "aws_network_interface" "private" {
 }
 
 #
-# Public IP creation
+# Public E. IP creation
 #
 resource "aws_eip" "public_ip" {
   domain = "vpc"
