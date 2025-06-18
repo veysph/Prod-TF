@@ -37,7 +37,7 @@ resource "azurerm_network_security_group" "f5xc-ce-outside-nsg" {
   #   protocol                   = "Icmp"
   #   source_port_range          = "*"
   #   destination_port_range     = "*"
-  #   source_address_prefix      = "82.65.174.68/32"
+  #   source_address_prefix      = "XX.XX.XX.XX/XX"
   #   destination_address_prefix = "*"
   # }
 
@@ -49,7 +49,7 @@ resource "azurerm_network_security_group" "f5xc-ce-outside-nsg" {
   #   protocol                   = "Tcp"
   #   source_port_range          = "*"
   #   destination_port_range     = "22"
-  #   source_address_prefix      = "82.65.174.68/32"
+  #   source_address_prefix      = "XX.XX.XX.XX/XX"
   #   destination_address_prefix = "*"
   # }
 
