@@ -2,16 +2,11 @@ resource "volterra_securemesh_site_v2" "site" {
   name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
   namespace               = "system"
   description             = var.f5xc_sms_description
-  block_all_services      = true
+  block_all_services      = false
   logs_streaming_disabled = true
-  enable_ha               = local.f5xc_node_count > 1 ? true : false
 
   labels = {
     "ves.io/provider" = "ves-io-AZURE"
-  }
-
-  offline_survivability_mode {
-    enable_offline_survivability_mode = false
   }
 
   re_select {

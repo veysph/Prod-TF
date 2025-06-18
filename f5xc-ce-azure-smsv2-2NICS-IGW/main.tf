@@ -2,10 +2,6 @@ resource "random_id" "suffix" {
   byte_length = 2
 }
 
-locals {
-  f5xc_node_count = var.f5xc_enable_ce_site_ha ? 3 : 1
-}
-
 data "azurerm_resource_group" "rg" {
   name = var.ressource_group
 }
@@ -80,8 +76,7 @@ resource "azurerm_network_security_group" "f5xc-ce-outside-nsg" {
 
 # Create a public network interface
 resource "azurerm_public_ip" "ce_public_ip" {
-  count               = local.f5xc_node_count
-  name                = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index)
+  name                = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   allocation_method   = "Static"
@@ -89,14 +84,13 @@ resource "azurerm_public_ip" "ce_public_ip" {
 }
 
 resource "azurerm_network_interface" "outside_nic" {
-  count                         = local.f5xc_node_count
-  name                          = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "outside-nic")
+  name                          = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "outside-nic")
   location                      = var.location
   resource_group_name           = data.azurerm_resource_group.rg.name
   enable_ip_forwarding = true
 
   ip_configuration {
-    name                          = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "outside-ip")
+    name                          = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "outside-ip")
     subnet_id                     = data.azurerm_subnet.outside.id
     # private_ip_address_allocation = "Dynamic"
     private_ip_address_allocation = "Static"
@@ -105,27 +99,25 @@ resource "azurerm_network_interface" "outside_nic" {
   }
 
   tags = {
-    Name   = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "outside-nic")
+    Name   = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "outside-nic")
     source = "terraform"
     owner = var.owner
   }
 }
 
 resource "azurerm_network_interface_security_group_association" "outside-nic-nsg-attachment" {
-  count                     = local.f5xc_node_count
-  network_interface_id      = azurerm_network_interface.outside_nic[count.index].id
+  network_interface_id      = azurerm_network_interface.outside_nic.id
   network_security_group_id = azurerm_network_security_group.f5xc-ce-outside-nsg.id
 }
 
 resource "azurerm_network_interface" "inside_nic" {
-  count               = local.f5xc_node_count
-  name                = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "inside-nic")
+  name                = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "inside-nic")
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
   enable_ip_forwarding = true
 
   ip_configuration {
-    name                          = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "inside-ip")
+    name                          = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "inside-ip")
     subnet_id                     = data.azurerm_subnet.inside.id
     # private_ip_address_allocation = "Dynamic"
     private_ip_address_allocation = "Static"
@@ -133,19 +125,18 @@ resource "azurerm_network_interface" "inside_nic" {
   }
 
   tags = {
-    Name   = format("%s-%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index, "inside-nic")
+    Name   = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "inside-nic")
     source = "terraform"
     owner = var.owner
   }
 }
 
 resource "azurerm_linux_virtual_machine" "f5xc-ce-nodes" {
-  count                 = local.f5xc_node_count
   resource_group_name   = data.azurerm_resource_group.rg.name
-  name                  = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index)
+  name                  = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
   location              = var.location
   size                  = var.f5xc_sms_instance_type
-  network_interface_ids = [azurerm_network_interface.outside_nic[count.index].id, azurerm_network_interface.inside_nic[count.index].id]
+  network_interface_ids = [azurerm_network_interface.outside_nic[count.index].id, azurerm_network_interface.inside_nic.id]
 
   admin_username = "cloud-user"
 
@@ -180,7 +171,7 @@ resource "azurerm_linux_virtual_machine" "f5xc-ce-nodes" {
   depends_on  = [data.azurerm_resource_group.rg]
 
   tags = {
-    Name   = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, count.index)
+    Name   = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
     source = "terraform"
     owner  = var.owner
   }

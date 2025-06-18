@@ -8,11 +8,6 @@ variable "f5xc-ce-site-name" {
     default = "pveys-smsv2-azure-tf"
 }
 
-variable "f5xc_enable_ce_site_ha" {
-  type = bool
-  default = false
-}
-
 variable "vnet" {
     description = "VNET of the CEs"
     default = "<your VNET>"
