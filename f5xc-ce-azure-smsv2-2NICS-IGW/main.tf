@@ -18,51 +18,47 @@ data "azurerm_subnet" "inside" {
   resource_group_name  = data.azurerm_resource_group.rg.name
 }
 
+#
 # Create Network Security Group and rule
+#
 resource "azurerm_network_security_group" "f5xc-ce-outside-nsg" {
   name                = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"nsg-SLO")
   location            = var.location
   resource_group_name = data.azurerm_resource_group.rg.name
 
-  security_rule {
-    name                       = "ICMP-from-trusted"
-    priority                   = 100
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Icmp"
-    source_port_range          = "*"
-    destination_port_range     = "*"
-    source_address_prefix      = "82.65.174.68/32"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "SSH-from-trusted"
-    priority                   = 110
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "22"
-    source_address_prefix      = "82.65.174.68/32"
-    destination_address_prefix = "*"
-  }
-
-  security_rule {
-    name                       = "HTTPS-from-all"
-    priority                   = 120
-    direction                  = "Inbound"
-    access                     = "Allow"
-    protocol                   = "Tcp"
-    source_port_range          = "*"
-    destination_port_range     = "443"
-    source_address_prefix      = "*"
-    destination_address_prefix = "*"
-  }
+  #
+  #Please uncomment / adapt the two rules bellow to allow ICMP and/or SSH access to the public IP of SLO interface
+  #
+  # security_rule {
+  #   name                       = "ICMP-from-trusted"
+  #   priority                   = 100
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "Icmp"
+  #   source_port_range          = "*"
+  #   destination_port_range     = "*"
+  #   source_address_prefix      = "82.65.174.68/32"
+  #   destination_address_prefix = "*"
+  # }
 
   # security_rule {
+  #   name                       = "SSH-from-trusted"
+  #   priority                   = 110
+  #   direction                  = "Inbound"
+  #   access                     = "Allow"
+  #   protocol                   = "Tcp"
+  #   source_port_range          = "*"
+  #   destination_port_range     = "22"
+  #   source_address_prefix      = "82.65.174.68/32"
+  #   destination_address_prefix = "*"
+  # }
+
+  #
+  #Please uncomment / adapt the rule bellow if you plan to use the site mesh group feature over a public IP
+  #
+  # security_rule {
   #   name                       = "IPSEC-from-all"
-  #   priority                   = 130
+  #   priority                   = 120
   #   direction                  = "Inbound"
   #   access                     = "Allow"
   #   protocol                   = "Udp"
