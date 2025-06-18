@@ -1,0 +1,53 @@
+#
+#F5XC
+#
+resource "volterra_token" "smsv2-token" {
+  depends_on = [volterra_securemesh_site_v2.site]
+  name       = "${var.f5xc-ce-site-name}-token"
+  namespace  = "system"
+  type       = 1
+  site_name  = volterra_securemesh_site_v2.site.name
+}
+
+data "cloudinit_config" "f5xc-ce_config" {
+  gzip          = false
+  base64_encode = false
+
+  part {
+    content_type = "text/cloud-config"
+    content = yamlencode({
+      #cloud-config
+      write_files = [
+        {
+          path        = "/etc/vpm/user_data"
+          permissions = "0644"
+          owner       = "root"
+          content     = <<-EOT
+            token: ${trimprefix(trimprefix(volterra_token.smsv2-token.id, "id="), "\"")}
+          EOT
+        }
+      ]
+    })
+  }
+}
+
+resource "volterra_securemesh_site_v2" "site" {
+  name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
+  namespace               = "system"
+  description             = var.f5xc_sms_description
+  block_all_services      = true
+  logs_streaming_disabled = true
+  enable_ha               = false
+
+  labels = {
+    "ves.io/provider" = "ves-io-GCP"
+  }
+
+  re_select {
+    geo_proximity = true
+  }
+
+  gcp {
+    not_managed {}
+  }
+}
