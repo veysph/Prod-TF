@@ -59,8 +59,8 @@ variable "slo-private-ip" {
 }
 
 variable "sli-private-ip" {
-    description = "<private IP for SLO NIC>"
-    default = "10.168.3.250"
+    description = "Private IP for SLI"
+    default = "<private IP for SLI NIC>"
 }
 
 variable "f5xc_api_url" {
