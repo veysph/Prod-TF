@@ -154,8 +154,8 @@ resource "aws_eip_association" "eip_attach" {
 #
 resource "aws_instance" "smsv2-aws-tf" {
   depends_on = [aws_security_group.EC2-CE-sg-SLI]
-  ami                         = "ami-05f8f42b21a455447"
-  instance_type               = "t3.2xlarge"
+  ami                         = var.aws-f5xc-ami
+  instance_type               = var.aws-ec2-flavor
   key_name                    = var.aws-ssh-key
   network_interface {
         device_index = 0

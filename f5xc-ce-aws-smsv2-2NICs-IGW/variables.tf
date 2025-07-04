@@ -23,6 +23,22 @@ variable "aws-region" {
     default = "eu-west-3"
 }
 
+variable "aws-f5xc-ami" {
+    description = "AMI to use to deploy the F5XC CE"
+    default = "ami-032a3669fe1532f76"
+}
+
+variable "aws-ec2-flavor" {
+  type        = string
+  description = "EC2 instance type (allowed: m5.2xlarge, m5.4xlarge)"
+  default = "m5.2xlarge"
+
+  validation {
+    condition     = contains(["m5.2xlarge", "m5.4xlarge"], var.aws-ec2-flavor)
+    error_message = "Invalid EC2 instance type. Allowed values are: m5.2xlarge or m5.4xlarge."
+  }
+}
+
 variable "slo-private-ip" {
     description = "Private IP for SLO"
     default = "<your private IP for SLO"
