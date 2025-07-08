@@ -52,31 +52,6 @@ resource "azurerm_network_security_group" "f5xc-ce-outside-nsg" {
   #   source_address_prefix      = "XX.XX.XX.XX/XX"
   #   destination_address_prefix = "*"
   # }
-
-  #
-  #Please uncomment / adapt the rule bellow if you plan to use the site mesh group feature over a public IP
-  #
-  # security_rule {
-  #   name                       = "IPSEC-from-all"
-  #   priority                   = 120
-  #   direction                  = "Inbound"
-  #   access                     = "Allow"
-  #   protocol                   = "Udp"
-  #   source_port_range          = "*"
-  #   destination_port_range     = "4500"
-  #   source_address_prefix      = "*"
-  #   destination_address_prefix = "*"
-  # }
-
-}
-
-# Create a public network interface
-resource "azurerm_public_ip" "ce_public_ip" {
-  name                = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-  location            = var.location
-  resource_group_name = data.azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
 }
 
 resource "azurerm_network_interface" "outside_nic" {
@@ -91,7 +66,6 @@ resource "azurerm_network_interface" "outside_nic" {
     # private_ip_address_allocation = "Dynamic"
     private_ip_address_allocation = "Static"
     private_ip_address            = var.slo-private-ip
-    public_ip_address_id          = azurerm_public_ip.ce_public_ip[count.index].id
   }
 
   tags = {

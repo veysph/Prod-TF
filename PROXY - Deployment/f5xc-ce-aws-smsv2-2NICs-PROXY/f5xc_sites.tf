@@ -16,6 +16,14 @@ resource "volterra_securemesh_site_v2" "site" {
     geo_proximity = true
   }
 
+  custom_proxy {
+      enable_re_tunnel = true
+      proxy_ip_address = "<proxy IP>"
+      proxy_port = <proxy port>
+  }
+
+  tunnel_type = "SITE_TO_SITE_TUNNEL_SSL"
+
   aws {
     not_managed {}
   }

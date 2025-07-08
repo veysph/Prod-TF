@@ -58,18 +58,6 @@ resource "aws_security_group" "EC2-CE-sg-SLO" {
   # }
 
   #
-  #Please uncomment / adapt the rule bellow if you plan to use the site mesh group feature over a public IP
-  #
-  # ingress {
-  #   description = "IPSEC from any"
-  #   from_port   = 4500
-  #   to_port     = 4500
-  #   protocol    = "udp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
-
-
-  #
   #Please adapt the following rule if needed. CE need outgoing access to TCP 53(DNS), 443(HTTPS) and UDP 53(DNS), 123(NTP)
   #
   egress {
@@ -135,18 +123,6 @@ resource "aws_network_interface" "private" {
         Name = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"eni-priv")
         owner = var.owner
     }
-}
-
-#
-# Public E. IP creation
-#
-resource "aws_eip" "public_ip" {
-  domain = "vpc"
-}
-
-resource "aws_eip_association" "eip_attach" {
-  allocation_id        = aws_eip.public_ip.id
-  network_interface_id = aws_network_interface.public.id
 }
 
 #

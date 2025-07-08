@@ -38,9 +38,14 @@ variable "inside-subnet-name" {
 }
 
 variable "f5xc_sms_instance_type" {
-  description = "Specifies the size of the virtual machine."
+  description = "Azure instance type (allowed: Standard_D8_v4, Standard_D16_v4)"
   type        = string
-  default     = "Standard_B4as_v2"
+  default     = "Standard_D8_v4"
+
+  validation {
+    condition     = contains(["Standard_D8_v4", "Standard_D16_v4"], var.f5xc_sms_instance_type)
+    error_message = "Invalid Azure instance type. Allowed values are: Standard_D8_v4 or Standard_D16_v4."
+  }
 }
 
 variable "f5xc_sms_storage_account_type" {

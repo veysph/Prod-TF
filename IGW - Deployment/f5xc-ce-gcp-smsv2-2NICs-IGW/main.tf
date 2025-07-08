@@ -39,7 +39,7 @@ resource "google_compute_address" "public_ip" {
 # Compute Instance
 resource "google_compute_instance" "smsv2_gcp" {
   name         = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-  machine_type = "n2-standard-8"
+  machine_type = var.gcp-instance-flavor
   zone         = "${var.gcp_region}-a"
   tags         = ["f5xc-ce"]
   can_ip_forward = true

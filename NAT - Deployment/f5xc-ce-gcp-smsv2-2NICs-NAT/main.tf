@@ -28,18 +28,11 @@ data "google_compute_subnetwork" "inside" {
 #
 #GCP computing
 #
-# Public IP Allocation
-resource "google_compute_address" "public_ip" {
-  name         = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "public-ip")
-  address_type = "EXTERNAL"
-  region       = var.gcp_region
-  network_tier = "STANDARD"
-}
 
 # Compute Instance
 resource "google_compute_instance" "smsv2_gcp" {
   name         = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-  machine_type = "n2-standard-8"
+  machine_type = var.gcp-instance-flavor
   zone         = "${var.gcp_region}-a"
   tags         = ["f5xc-ce"]
   can_ip_forward = true
@@ -55,10 +48,6 @@ resource "google_compute_instance" "smsv2_gcp" {
   network_interface {
     subnetwork = data.google_compute_subnetwork.outside.self_link
     network_ip = var.slo-private-ip
-    access_config {
-      nat_ip = google_compute_address.public_ip.address
-      network_tier = "STANDARD"
-    }
   }
 
   network_interface {

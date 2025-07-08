@@ -1,6 +1,35 @@
 #
 #F5XC
 #
+resource "volterra_securemesh_site_v2" "site" {
+  name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
+  namespace               = "system"
+  description             = var.f5xc_sms_description
+  block_all_services      = true
+  logs_streaming_disabled = true
+  enable_ha               = false
+
+  labels = {
+    "ves.io/provider" = "ves-io-GCP"
+  }
+
+  re_select {
+    geo_proximity = true
+  }
+
+  custom_proxy {
+      enable_re_tunnel = true
+      proxy_ip_address = "<proxy IP>"
+      proxy_port = <proxy port>
+  }
+
+  tunnel_type = "SITE_TO_SITE_TUNNEL_SSL"
+
+  gcp {
+    not_managed {}
+  }
+}
+
 resource "volterra_token" "smsv2-token" {
   depends_on = [volterra_securemesh_site_v2.site]
   name       = "${var.f5xc-ce-site-name}-token"
@@ -28,26 +57,5 @@ data "cloudinit_config" "f5xc-ce_config" {
         }
       ]
     })
-  }
-}
-
-resource "volterra_securemesh_site_v2" "site" {
-  name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-  namespace               = "system"
-  description             = var.f5xc_sms_description
-  block_all_services      = true
-  logs_streaming_disabled = true
-  enable_ha               = false
-
-  labels = {
-    "ves.io/provider" = "ves-io-GCP"
-  }
-
-  re_select {
-    geo_proximity = true
-  }
-
-  gcp {
-    not_managed {}
   }
 }
