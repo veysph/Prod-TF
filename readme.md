@@ -28,6 +28,15 @@ az vm image terms accept --publisher f5-networks --offer f5xc_customer_edge --pl
 
 Go to this page in [AWS Console](https://aws.amazon.com/marketplace/search/results?searchTerms=F5+Distributed+Cloud+BYOL)
 
+# Support
+
+This repository contains community code which is not covered by F5 Technical Support nor any SLA.
+
+Please read and understand the license before use.
+
+The solutions in this repository are not guaranteed to work, keep working or being updated with required changes at any time.
+
+You, as the implementor, are solely responsible.
 
 
 ## Last updated
