@@ -32,7 +32,7 @@ Go to this page in [AWS Console](https://aws.amazon.com/marketplace/search/resul
 
 This repository contains community code which is not covered by F5 Technical Support nor any SLA.
 
-Please read and understand the [LICENSE](COPYING) before use. 
+Please read and understand the [LICENSE](COPYING.txt) before use. 
 
 The solutions in this repository are not guaranteed to work, keep working or being updated with required changes at any time.
 
