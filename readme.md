@@ -10,7 +10,7 @@ However the main topologies for single F5XC deployment in a cloud environment ar
 
 **Internet Gateway or NAT Gateway topology**
 
-![ Cloud_IGW_NATGW](https://github.com/user-attachments/assets/52a7231f-bcda-43f2-a00f-fedb34dd6b4d)
+![Cloud_IGW_NATGW](https://github.com/user-attachments/assets/52a7231f-bcda-43f2-a00f-fedb34dd6b4d)
 
 **Proxy topology**
 
@@ -25,6 +25,9 @@ az vm image terms accept --publisher f5-networks --offer f5xc_customer_edge --pl
 ```
 
 **AWS**
+
+Go to this page in ![AWS Console](https://aws.amazon.com/marketplace/search/results?searchTerms=F5+Distributed+Cloud+BYOL)
+
 
 
 ## Last updated
