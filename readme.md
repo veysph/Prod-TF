@@ -16,6 +16,16 @@ However the main topologies for single F5XC deployment in a cloud environment ar
 
 ![MCN Use cases - CE - General Cloud IGW_NAT GW_Proxy](https://github.com/user-attachments/assets/3121a6a8-8378-4bc0-a1a5-f4a22e500f85)
 
+## Cloud / F5XC subscription validation
+
+**Azure**
+
+```sh
+az vm image terms accept --publisher f5-networks --offer f5xc_customer_edge --plan f5xccebyol
+```
+
+**AWS**
+
 
 ## Last updated
 July 9th 2025
