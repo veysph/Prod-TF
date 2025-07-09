@@ -26,7 +26,7 @@ az vm image terms accept --publisher f5-networks --offer f5xc_customer_edge --pl
 
 **AWS**
 
-Go to this page in ![AWS Console](https://aws.amazon.com/marketplace/search/results?searchTerms=F5+Distributed+Cloud+BYOL)
+Go to this page in [AWS Console](https://aws.amazon.com/marketplace/search/results?searchTerms=F5+Distributed+Cloud+BYOL)
 
 
 
