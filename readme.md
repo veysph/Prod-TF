@@ -6,7 +6,7 @@ This is a small collection of Terraform scripts to deploy F5XC SMSv2 CEs in vari
 
 For more information regarding use cases and SMSv2 CE implementation, please refer to this page on [F5 Devcentral](https://community.f5.com/kb/technicalarticles/how-to-deploy-an-f5xc-smsv2-site-with-the-help-of-automation/342198) and this page on [F5 XC Documentation](https://docs.cloud.f5.com/docs-v2/multi-cloud-network-connect/how-to/site-management/create-secure-mesh-site-v2).
 
-However the main topologies for single F5XC deployment in a cloud environment are the following.
+In short the main topologies for single F5XC deployment in a cloud environment are the following.
 
 **Internet Gateway or NAT Gateway topology**
 
