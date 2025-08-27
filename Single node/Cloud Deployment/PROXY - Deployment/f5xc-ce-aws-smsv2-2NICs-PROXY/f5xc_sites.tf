@@ -18,8 +18,8 @@ resource "volterra_securemesh_site_v2" "site" {
 
   custom_proxy {
       enable_re_tunnel = true
-      proxy_ip_address = "<proxy IP>"
-      proxy_port = <proxy port>
+      proxy_ip_address = var.proxy_ip_address
+      proxy_port = var.proxy_port
   }
 
   tunnel_type = "SITE_TO_SITE_TUNNEL_SSL"

@@ -81,3 +81,43 @@ variable "f5xc_default_sw_version" {
     error_message = "f5xc_default_sw_version must be a boolean value."
   }
 }
+
+variable "aws_shared_config_files" {
+  type        = list(string)
+  description = "List of paths to AWS shared config files"
+  default     = ["~/.aws/config"]
+}
+
+variable "aws_shared_credentials_files" {
+  type        = list(string)
+  description = "List of paths to AWS shared credentials files"
+  default     = ["~/.aws/credentials"]
+}
+
+variable "aws_profile" {
+  type        = string
+  description = "AWS profile to use"
+  default     = "default"
+}
+
+variable "public_subnet_name" {
+  type        = string
+  description = "Name of the public subnet for SLO interface"
+  default     = "pveys-smsv2-public-3a"
+}
+
+variable "private_subnet_name" {
+  type        = string
+  description = "Name of the private subnet for SLI interface"
+  default     = "pveys-smsv2-private-3a"
+}
+
+variable "proxy_ip_address" {
+  type        = string
+  description = "Proxy IP address for F5XC custom proxy configuration"
+}
+
+variable "proxy_port" {
+  type        = number
+  description = "Proxy port for F5XC custom proxy configuration"
+}

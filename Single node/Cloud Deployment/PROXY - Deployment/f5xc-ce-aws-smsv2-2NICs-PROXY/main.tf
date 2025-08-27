@@ -17,7 +17,7 @@ data "aws_subnet" "outside" {
   vpc_id = data.aws_vpc.main.id
   filter {
     name   = "tag:Name"
-    values = ["pveys-smsv2-public-3a"]
+    values = [var.public_subnet_name]
   }
 }
 
@@ -25,7 +25,7 @@ data "aws_subnet" "inside" {
   vpc_id = data.aws_vpc.main.id
   filter {
     name   = "tag:Name"
-    values = ["pveys-smsv2-private-3a"]
+    values = [var.private_subnet_name]
   }
 }
 

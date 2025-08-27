@@ -17,7 +17,7 @@ data "aws_subnet" "outside" {
   vpc_id = data.aws_vpc.main.id
   filter {
     name   = "tag:Name"
-    values = ["pveys-smsv2-public-3a"]
+    values = [var.outside_subnet_name]
   }
 }
 
@@ -25,7 +25,7 @@ data "aws_subnet" "inside" {
   vpc_id = data.aws_vpc.main.id
   filter {
     name   = "tag:Name"
-    values = ["pveys-smsv2-private-3a"]
+    values = [var.inside_subnet_name]
   }
 }
 
@@ -33,7 +33,7 @@ data "aws_subnet" "inside" {
 #AWS security group for the instance
 #
 resource "aws_security_group" "EC2-CE-sg-SLO" {
-  name        = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLO")
+  name        = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"sg-SLO")
   description = "Allow traffic flows on SLO, ingress and egress"
   vpc_id      = data.aws_vpc.main.id
 
@@ -68,13 +68,13 @@ resource "aws_security_group" "EC2-CE-sg-SLO" {
   }
 
   tags = {
-    Name = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLO")
+    Name = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"sg-SLO")
     owner = var.owner
   }
 }
 
 resource "aws_security_group" "EC2-CE-sg-SLI" {
-  name        = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLI")
+  name        = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"sg-SLI")
   description = "Allow traffic flows on SLI, ingress and egress"
   vpc_id      = data.aws_vpc.main.id
 
@@ -93,7 +93,7 @@ resource "aws_security_group" "EC2-CE-sg-SLI" {
   }
 
   tags = {
-    Name = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"sg-SLI")
+    Name = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"sg-SLI")
     owner = var.owner
   }
 }
@@ -105,10 +105,10 @@ resource "aws_security_group" "EC2-CE-sg-SLI" {
 resource "aws_network_interface" "public" {
     subnet_id = data.aws_subnet.outside.id
     security_groups = [aws_security_group.EC2-CE-sg-SLO.id]
-    private_ips = [var.slo-private-ip]
+    private_ips = [var.slo_private_ip]
     source_dest_check = false
     tags = {
-        Name = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"eni-pub")
+        Name = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"eni-pub")
         owner = var.owner
     }
 }
@@ -117,10 +117,10 @@ resource "aws_network_interface" "public" {
 resource "aws_network_interface" "private" {
     subnet_id = data.aws_subnet.inside.id
     security_groups = [aws_security_group.EC2-CE-sg-SLI.id]
-    private_ips = [var.sli-private-ip]
+    private_ips = [var.sli_private_ip]
     source_dest_check = false
     tags = {
-        Name = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex,"eni-priv")
+        Name = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex,"eni-priv")
         owner = var.owner
     }
 }
@@ -130,9 +130,9 @@ resource "aws_network_interface" "private" {
 #
 resource "aws_instance" "smsv2-aws-tf" {
   depends_on = [aws_security_group.EC2-CE-sg-SLI]
-  ami                         = var.aws-f5xc-ami
-  instance_type               = var.aws-ec2-flavor
-  key_name                    = var.aws-ssh-key
+  ami                         = var.aws_f5xc_ami
+  instance_type               = var.aws_ec2_flavor
+  key_name                    = var.aws_ssh_key
   network_interface {
         device_index = 0
         network_interface_id = aws_network_interface.public.id
@@ -149,8 +149,8 @@ resource "aws_instance" "smsv2-aws-tf" {
   user_data = data.cloudinit_config.f5xc-ce_config.rendered
 
   tags = {
-    Name                                         = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-    ves-io-site-name                             = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
-    "kubernetes.io/cluster/${var.f5xc-ce-site-name}-${random_id.suffix.hex}"   = "owned"
+    Name                                         = format("%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex)
+    ves-io-site-name                             = format("%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex)
+    "kubernetes.io/cluster/${var.f5xc_ce_site_name}-${random_id.suffix.hex}"   = "owned"
   }
 }

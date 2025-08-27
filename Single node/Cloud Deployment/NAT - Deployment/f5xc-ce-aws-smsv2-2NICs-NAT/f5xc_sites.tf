@@ -2,7 +2,7 @@
 #F5XC ressource (Site / Token / Cloud-init)
 #
 resource "volterra_securemesh_site_v2" "site" {
-  name                    = format("%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex)
+  name                    = format("%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex)
   namespace               = "system"
   description             = var.f5xc_sms_description
   block_all_services      = true
@@ -33,7 +33,7 @@ resource "volterra_securemesh_site_v2" "site" {
 
 resource "volterra_token" "smsv2-token" {
   depends_on = [volterra_securemesh_site_v2.site]
-  name       = format("%s-%s-%s", var.f5xc-ce-site-name, random_id.suffix.hex, "token")
+  name       = format("%s-%s-%s", var.f5xc_ce_site_name, random_id.suffix.hex, "token")
   namespace  = "system"
   type       = 1
   site_name  = volterra_securemesh_site_v2.site.name

@@ -16,7 +16,7 @@ terraform {
 }
 
 provider "aws" {
-  region                   = var.aws-region
+  region                   = var.aws_region
   shared_config_files      = "<your aws config location>"
   shared_credentials_files = "<your aws config location>"
   profile                  = "default"

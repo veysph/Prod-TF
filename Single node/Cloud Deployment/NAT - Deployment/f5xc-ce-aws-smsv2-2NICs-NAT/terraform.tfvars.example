@@ -1,0 +1,29 @@
+# AWS Configuration
+aws_region = "eu-west-3"
+
+# VPC and Networking
+vpc_name = "your-vpc-name"
+outside_subnet_name = "your-public-subnet-name"
+inside_subnet_name = "your-private-subnet-name"
+
+# EC2 Instance Configuration
+aws_ssh_key = "your-aws-ssh-key-name"
+aws_f5xc_ami = "ami-032a3669fe1532f76"
+aws_ec2_flavor = "m5.2xlarge"  # Allowed: m5.2xlarge, m5.4xlarge
+
+# Network Interface Private IPs
+slo_private_ip = "10.0.1.100"  # Replace with your SLO private IP
+sli_private_ip = "10.0.2.100"  # Replace with your SLI private IP
+
+# F5XC Site Configuration
+f5xc_ce_site_name = "your-site-name"
+owner = "your-username"
+
+# F5XC API Configuration
+f5xc_api_url = "https://your-tenant.console.ves.volterra.io/api"
+f5xc_api_p12_file = "/path/to/your/api/certificate.p12"
+f5xc_sms_description = "F5XC SMSv2 AWS site created with Terraform"
+
+# F5XC Software Version Management
+f5xc_default_sw_version = true
+# f5xc_software_version = "9.2024.12"  # Uncomment and specify version if f5xc_default_sw_version is false
