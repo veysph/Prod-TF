@@ -78,7 +78,7 @@ variable "f5xc_default_sw_version" {
   default     = true
 
   validation {
-    condition     = var.f5xc_default_sw_version == true ? var.f5xc_software_version == null : var.f5xc_software_version != null
-    error_message = "When default_sw_version is true, f5xc_software_version must not be specified. When default_sw_version is false, f5xc_software_version must be specified."
+    condition     = can(var.f5xc_default_sw_version)
+    error_message = "f5xc_default_sw_version must be a boolean value."
   }
 }
