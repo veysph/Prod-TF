@@ -1,0 +1,40 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and customize with your values
+
+# AWS Configuration
+vpc_name                = "my-vpc"
+outside_subnet_name     = "my-outside-subnet"
+inside_subnet_name      = "my-inside-subnet"
+nlb_public_subnet_name  = "my-public-subnet"
+aws_region              = "us-west-2"
+aws_ssh_key             = "my-ssh-key"
+aws_f5xc_ami            = "ami-xxxxxxxxxxxxxxxxx"
+owner                   = "your-name"
+
+# F5XC Site Configuration
+f5xc_ce_site_name       = "my-f5xc-site"
+node_count              = 1
+
+# F5XC API Configuration
+f5xc_api_url            = "https://your-tenant.console.ves.volterra.io/api"
+f5xc_api_p12_file       = "/path/to/your/api-creds.p12"
+
+# Optional: Virtual Site Configuration
+create_f5xc_vsite_resources = true
+f5xc_vsite_key              = "my-vsite-key"
+f5xc_vsite_key_label        = "yes"
+
+# Optional: Virtual Site Creation
+create_f5xc_virtual_site    = false
+f5xc_virtual_site_name      = "my-virtual-site"
+
+# Optional: Network Load Balancer
+deploy_nlb                  = true
+nlb_target_ports           = [80, 443]
+nlb_health_check_port      = 80
+
+# Optional: F5XC HTTP Load Balancer
+create_f5xc_loadbalancer   = true
+lb_name                    = "my-load-balancer"
+namespace                  = "shared"
+domains                    = ["test-hc.hc.local"]

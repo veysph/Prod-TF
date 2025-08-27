@@ -1,0 +1,42 @@
+# F5XC API Configuration
+# Replace with your actual F5XC tenant URL
+f5xc_api_url      = "https://your-tenant.console.ves.volterra.io/api"
+
+# Path to your F5XC tenant API key (P12 certificate file)
+f5xc_api_p12_file = "/path/to/your/tenant-api-key.p12"
+
+# F5XC Site Configuration
+f5xc_sms_description = "F5XC KVM site smsv2 site created with Terraform"
+
+# KVM CE Configuration
+# Path to the F5XC CE QCOW2 image file
+f5xc-ce-qcow2        = "/var/lib/libvirt/images/f5xc-ce.qcow2"
+
+# Memory allocation in MB for the KVM CE instance
+f5xc-ce-memory       = "32000"
+
+# Number of vCPUs to allocate to the KVM CE instance
+f5xc-ce-vcpu         = "8"
+
+# Site/cluster name for the KVM CE deployment
+f5xc-ce-site-name    = "your-site-name"
+
+# Node name for the KVM CE instance
+f5xc-ce-node-name    = "node-0"
+
+# KVM storage pool name where volumes will be created
+f5xc-ce-storage-pool = "default"
+
+# Networking Configuration
+# KVM network name for SLO (Site Local Outside) interface
+f5xc-ce-network-slo = "virbr0"
+
+# KVM network name for SLI (Site Local Inside) interface  
+f5xc-ce-network-sli = "virbr1"
+
+# Software Version Configuration
+# Set to true to use default F5XC software version
+f5xc_default_sw_version = true
+
+# Uncomment and specify version if f5xc_default_sw_version is false
+# f5xc_software_version = "ves-io-ce-os-1.0.0-123456"

@@ -23,6 +23,9 @@ crash.*.log
 *.auto.tfvars
 *.auto.tfvars.json
 
+# Do NOT ignore example files
+!*.tfvars.example
+
 # Override files for local changes
 override.tf
 override.tf.json
