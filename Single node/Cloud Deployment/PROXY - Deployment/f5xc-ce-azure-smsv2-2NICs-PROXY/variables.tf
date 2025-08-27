@@ -83,3 +83,20 @@ variable "f5xc_sms_description" {
   type    = string
   default = "F5XC Azure site smsv2 site created with Terraform"
 }
+
+variable "f5xc_software_version" {
+  type        = string
+  description = "F5XC software version for the site (only specify if default_sw_version is false)"
+  default     = null
+}
+
+variable "f5xc_default_sw_version" {
+  type        = bool
+  description = "Use default software version (true) or specify custom version (false). If true, volterra_software_version must not be specified"
+  default     = true
+
+  validation {
+    condition     = var.f5xc_default_sw_version == true ? var.f5xc_software_version == null : var.f5xc_software_version != null
+    error_message = "When default_sw_version is true, f5xc_software_version must not be specified. When default_sw_version is false, f5xc_software_version must be specified."
+  }
+}

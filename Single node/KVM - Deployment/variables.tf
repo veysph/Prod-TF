@@ -52,4 +52,21 @@ variable "f5xc-ce-network-slo" {
 variable "f5xc-ce-network-sli" {
     description = "KVM Networking for SLI interface"
     default = "<your KVM networking for SLI>"
-} 
+}
+
+variable "f5xc_software_version" {
+  type        = string
+  description = "F5XC software version for the site (only specify if default_sw_version is false)"
+  default     = null
+}
+
+variable "f5xc_default_sw_version" {
+  type        = bool
+  description = "Use default software version (true) or specify custom version (false). If true, volterra_software_version must not be specified"
+  default     = true
+
+  validation {
+    condition     = var.f5xc_default_sw_version == true ? var.f5xc_software_version == null : var.f5xc_software_version != null
+    error_message = "When default_sw_version is true, f5xc_software_version must not be specified. When default_sw_version is false, f5xc_software_version must be specified."
+  }
+}

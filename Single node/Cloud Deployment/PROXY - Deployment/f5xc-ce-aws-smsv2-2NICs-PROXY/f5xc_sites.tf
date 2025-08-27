@@ -27,6 +27,16 @@ resource "volterra_securemesh_site_v2" "site" {
   aws {
     not_managed {}
   }
+
+  software_settings {
+    os {
+      default_os_version = true
+    }
+    sw {
+      default_sw_version        = var.f5xc_default_sw_version ? true : null
+      volterra_software_version = var.f5xc_default_sw_version ? null : var.f5xc_software_version
+    }
+  }
 }
 
 resource "volterra_token" "smsv2-token" {
