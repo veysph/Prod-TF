@@ -1,31 +1,36 @@
 variable "vpc_name" {
-    description =  "The VPC"
-    default = "pveys-smsv2-vpc"
+  type        = string
+  description = "Name of the existing VPC to deploy resources in"
+  default     = "pveys-smsv2-vpc"
 }
 
 variable "owner" {
-    description = "Creator of the AWS ressources"
-    default=  "pveys"
+  type        = string
+  description = "Owner/creator of the AWS resources (used for tagging)"
+  default     = "pveys"
 }
 
 variable "f5xc-ce-site-name" {
-    description = "AWS CE site/cluster name"
-    default = "pveys-smsv2-aws-tf-igw"
+  type        = string
+  description = "F5XC CE site/cluster name (will have random suffix appended)"
+  default     = "pveys-smsv2-aws-tf-igw"
 }
 
 variable "aws-ssh-key" {
     description = "AWS ssh key for the AMI"
-    default = "<name of the ssh key in AWS>"
+    type        = string
 }
 
 variable "aws-region" {
-    description = "AWS region for F5XC CE deployment"
-    default = "eu-west-3"
+  type        = string
+  description = "AWS region for F5XC CE deployment"
+  default     = "eu-west-3"
 }
 
 variable "aws-f5xc-ami" {
-    description = "AMI to use to deploy the F5XC CE"
-    default = "ami-032a3669fe1532f76"
+  type        = string
+  description = "F5XC CE AMI ID to use for deployment"
+  default     = "ami-032a3669fe1532f76"
 }
 
 variable "aws-ec2-flavor" {
@@ -40,29 +45,30 @@ variable "aws-ec2-flavor" {
 }
 
 variable "slo-private-ip" {
-    description = "Private IP for SLO"
-    default = "<your private IP for SLO"
+    description = "Private IP for SLO interface"
+    type        = string
 }
 
 variable "sli-private-ip" {
-    description = "Private IP for SLI"
-    default = "<your private IP for SLI>"
+    description = "Private IP for SLI interface"
+    type        = string
 }
 
 variable "f5xc_api_url" {
-  type    = string
-  default = "https://<tenant name>.console.ves.volterra.io/api"
+  type        = string
+  description = "F5XC tenant API URL"
 }
 
 variable "f5xc_api_p12_file" {
   type        = string
-  description = "Volterra tenant api key"
-  default     = "<location of the api key>"
+  description = "Path to F5XC tenant API key (.p12 file)"
+  sensitive   = true
 }
 
 variable "f5xc_sms_description" {
-  type    = string
-  default = "F5XC SMSv2 AWS site created with Terraform"
+  type        = string
+  description = "Description for the F5XC site"
+  default     = "F5XC SMSv2 AWS site created with Terraform"
 }
 
 variable "f5xc_software_version" {
@@ -80,4 +86,16 @@ variable "f5xc_default_sw_version" {
     condition     = can(var.f5xc_default_sw_version)
     error_message = "f5xc_default_sw_version must be a boolean value."
   }
+}
+
+variable "public_subnet_name" {
+  type        = string
+  description = "Name of the public subnet for SLO interface"
+  default     = "pveys-smsv2-public-3a"
+}
+
+variable "private_subnet_name" {
+  type        = string
+  description = "Name of the private subnet for SLI interface"
+  default     = "pveys-smsv2-private-3a"
 }
