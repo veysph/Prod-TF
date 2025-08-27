@@ -209,3 +209,20 @@ variable "enable_bot_defense" {
   description = "Enable bot defense"
   default     = false
 }
+
+variable "f5xc_software_version" {
+  type        = string
+  description = "F5XC software version for the site (only specify if default_sw_version is false)"
+  default     = null
+}
+
+variable "f5xc_default_sw_version" {
+  type        = bool
+  description = "Use default software version (true) or specify custom version (false). If true, volterra_software_version must not be specified"
+  default     = true
+
+  validation {
+    condition     = can(var.f5xc_default_sw_version)
+    error_message = "f5xc_default_sw_version must be a boolean value."
+  }
+}
