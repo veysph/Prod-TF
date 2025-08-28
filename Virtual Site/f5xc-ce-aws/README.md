@@ -9,10 +9,6 @@ This Terraform project deploys F5 Distributed Cloud (F5XC) Customer Edge (CE) no
 - **Dual-NIC Configuration**: Each F5XC CE node has two network interfaces
   - **Outside Interface (SLO)**: Connected to a private subnet with NAT Gateway for secure outbound connectivity
   - **Inside Interface (SLI)**: Connected to a private subnet for internal/workload traffic
-- **Security Groups**: 
-  - **SLO Security Group**: Restrictive rules for management access (HTTP from VPC)
-  - **SLI Security Group**: Permissive rules for internal traffic
-  - **NLB Security Group**: Only allows HTTP (80) and HTTPS (443) traffic
 - **Network Load Balancer (Optional)**: Public-facing AWS NLB for traffic distribution across F5XC CE nodes
 - **F5XC Integration**: Creates secure mesh sites with token-based authentication
 - **Multi-Node Support**: Deploy 1-10 nodes with individual F5XC sites and unique naming
@@ -28,7 +24,6 @@ Please see the [diagram](f5xc-aws.jpeg).
 - **NAT Gateway**: Provides secure outbound internet access without direct public IP exposure
 - **Security Group Isolation**: Separate security groups for different interfaces
 - **NLB Security**: Dedicated security group restricting NLB to HTTP/HTTPS only
-- **No Elastic IPs**: F5XC CE nodes remain private, accessible via NAT Gateway
 
 ## Prerequisites
 
@@ -87,7 +82,7 @@ You must have the following AWS resources already created:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd f5xc-ce-aws-terraform
+cd f5xc-ce-aws
 
 # Copy example variables file
 cp terraform.tfvars.example terraform.tfvars
@@ -141,4 +136,4 @@ You, as the implementor, are solely responsible.
 
 
 ## Last updated
-August 22th 2025
+August 28th 2025
