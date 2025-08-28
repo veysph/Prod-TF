@@ -302,7 +302,7 @@ validation {
 }
 ```
 
-### `node_count`  
+### `node_count`
 ```hcl
 validation {
   condition     = var.node_count >= 1 && var.node_count <= 10
@@ -312,25 +312,13 @@ validation {
 
 ## Examples
 
-### Minimal Configuration
-```hcl
-# terraform.tfvars
-vpc_name = "my-production-vpc"
-outside_subnet_name = "private-subnet-1a"
-inside_subnet_name = "workload-subnet-1a"
-aws_region = "us-west-2"
-aws_ssh_key = "my-keypair"
-aws_f5xc_ami = "ami-0123456789abcdef0"
-f5xc_api_p12_file = "/home/user/.f5xc/api-creds.p12"
-```
-
-### Full Configuration with All Features
+### Full Configuration
 ```hcl
 # terraform.tfvars
 # AWS Configuration
 vpc_name = "production-vpc"
 outside_subnet_name = "prod-private-1a"
-inside_subnet_name = "prod-workload-1a"  
+inside_subnet_name = "prod-workload-1a"
 nlb_public_subnet_name = "prod-public-1a"
 aws_region = "us-east-1"
 aws_ssh_key = "prod-keypair"
@@ -360,5 +348,5 @@ f5xc_virtual_site_name = "prod-east-vsite"
 create_f5xc_loadbalancer = true
 lb_name = "prod-hc-lb"
 namespace = "production"
-domains = ["test-hs.hc.local"]
+domains = ["test-hc.hc.local"]
 ```
