@@ -1,0 +1,44 @@
+# Azure Infrastructure Settings
+resource_group_name = "my-f5xc-rg"
+vnet_name          = "my-f5xc-vnet"
+outside_subnet_name = "outside-subnet"
+inside_subnet_name  = "inside-subnet"
+lb_public_subnet_name = "public-subnet"
+location           = "West US 2"
+
+# F5XC CE Configuration
+f5xc-ce-site-name = "my-azure-f5xc-site"
+owner             = "your-name"
+ssh_username      = "cloud-user"
+ssh_public_key    = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQ... your-ssh-public-key-here"
+
+# VM Settings
+f5xc_sms_instance_type       = "Standard_D8_v4"  # or "Standard_D16_v4"
+f5xc_sms_storage_account_type = "Standard_LRS"
+node_count                   = 1
+
+# F5XC API Configuration
+f5xc_api_url      = "https://your-tenant.console.ves.volterra.io/api"
+f5xc_api_p12_file = "/path/to/your/api-creds.p12"
+
+# Virtual Site Configuration (optional)
+create_f5xc_vsite_resources = true
+f5xc_vsite_key             = "azure-site-key"
+f5xc_vsite_key_label       = "yes"
+
+# Virtual Site and Load Balancer (optional)
+create_f5xc_virtual_site   = false
+f5xc_virtual_site_name     = ""
+create_f5xc_loadbalancer   = false
+lb_name                    = ""
+domains                    = []
+
+# Azure Load Balancer (optional)
+deploy_lb          = false
+lb_target_ports    = [80, 443]
+lb_health_check_port = 80
+
+# Security Features (optional)
+enable_waf         = false
+enable_rate_limit  = false
+enable_bot_defense = false
