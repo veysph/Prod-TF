@@ -52,6 +52,8 @@ You must have the following AWS resources already created:
 **SSH Key Pair:**
 - EC2 Key Pair for SSH access to F5XC CE instances
 
+**Please have a look at [this document](AWS-PREREQUISITES.md). It contains all the aws cli commands needed to create the basic AWS infrastructure if needed.**
+
 ### F5 Distributed Cloud Requirements
 
 #### 1. F5XC Account
