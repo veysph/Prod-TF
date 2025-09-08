@@ -46,10 +46,10 @@ resource "google_compute_instance" "smsv2_gcp" {
 
   boot_disk {
     initialize_params {
-      image = "projects/f5-7626-networks-public/global/images/f5xc-ce-9202444-20250102052432"
+      image = "projects/f5-7626-networks-public/global/images/f5xc-ce-crt-20250701-0123"
       size  = 80
     }
-  guest_os_features = ["MULTI_IP_SUBNET", "GVNIC"]
+  guest_os_features = ["MULTI_IP_SUBNET"]
   }
 
   network_interface {
