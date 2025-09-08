@@ -49,7 +49,7 @@ resource "google_compute_instance" "smsv2_gcp" {
       image = "projects/f5-7626-networks-public/global/images/f5xc-ce-9202444-20250102052432"
       size  = 80
     }
-  guest_os_features = ["MULTI_IP_SUBNET"]
+  guest_os_features = ["MULTI_IP_SUBNET", "GVNIC"]
   }
 
   network_interface {
