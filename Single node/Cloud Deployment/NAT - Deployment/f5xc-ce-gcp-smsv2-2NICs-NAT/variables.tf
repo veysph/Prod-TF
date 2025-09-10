@@ -20,12 +20,12 @@ variable "gcp_project" {
 
 variable "gcp-instance-flavor" {
   type        = string
-  description = "GCP instance type (allowed: n4-standard-8, t2d-standard-8, a2-highgpu-2g, n4-standard-16, t2d-standard-16, a2-highgpu-4g)"
-  default = "n4-standard-8"
+  description = "GCP instance type (allowed: n2-standard-8, t2d-standard-8, n2-standard-16, t2d-standard-16)"
+  default = "n2-standard-8"
 
   validation {
-    condition     = contains(["n4-standard-8", "t2d-standard-8", "a2-highgpu-2g", "n4-standard-16", "t2d-standard-16", "a2-highgpu-4g"], var.gcp-instance-flavor)
-    error_message = "Invalid GCP instance type. Allowed values are: n4-standard-8, t2d-standard-8, a2-highgpu-2g, n4-standard-16, t2d-standard-16, a2-highgpu-4g."
+    condition     = contains(["n2-standard-8", "t2d-standard-8", "n2-standard-16", "t2d-standard-16"], var.gcp-instance-flavor)
+    error_message = "Invalid GCP instance type. Allowed values are: n2-standard-8, t2d-standard-8, n2-standard-16, t2d-standard-16."
   }
 }
 
